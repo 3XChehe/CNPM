@@ -2674,7 +2674,7 @@ INSERT INTO `users` (`UserId`, `ChucVu`, `TaiKhoan`, `MatKhau`, `NgayTao`, `Ngay
 ('938faa2dad7622a53e838543bc8df1d0', 'CB_PAKN', 'Jonh Cena', '$2b$10$fl0NEx6LBKzUPRA5/JhG7u1JP3bA2uJkDCVGc.xfYKsdwubWIyt3a', '2025-10-29 14:03:21', '2025-10-29 14:03:21'),
 ('994530beac2d912f0b6e71d3043e6035', 'TP', 'TP-TEST', '$2b$10$rwf992BzNMmzxF4SwdM1Ie.QizfpcCMAxm0TIm7H/30CtUGGQeBHS', '2025-10-30 05:52:41', '2025-10-30 06:06:23'),
 ('a9a76b3daa8f1b3e76471caeef892cc5', 'TT', 'Shaco', '$2b$10$xZzk3Zd1k3FvnMZ5VGkZ0uaWdK0YV0bGKgaWOJZw9EIYCBLWp1m8O', '2025-10-29 14:03:08', '2025-10-29 14:03:08'),
-('aef4c20bda43a0fe35aeb0e9a7cd25a3', 'TT', 'Haianh123', '$2b$10$EcVQLwZvvU5NUIDvhKSJYuIiHGWifB3S2EZDFvXNw2nsIf8adbK4q', '2025-10-29 07:04:21', '2025-10-30 05:39:29'),
+('aef4c20bda43a0fe35aeb0e9a7cd25a3', 'TT', 'admin', '$2b$10$EcVQLwZvvU5NUIDvhKSJYuIiHGWifB3S2EZDFvXNw2nsIf8adbK4q', '2025-10-29 07:04:21', '2025-10-30 05:39:29'),
 ('bbac9d9e060ef33fdfdec23667bbbfba', 'CB_PAKN', 'Mao Trạch Đông', '$2b$10$Jgk6zFkM30afDctWH6VXTup5M42BVipAF5URiTVcrqnezYy6TI25u', '2025-10-29 14:03:56', '2025-10-29 14:03:56'),
 ('c1094c05af24fa9ae21f1637c002f6a2', 'TT', 'Haianhdeptrai', '$2b$10$USYGw5ZhdAxKUgchXtst/ecNEY.LnxEIDyN5S3B.ENGiq8HE1R4nK', '2025-10-29 07:07:50', '2025-10-29 07:07:50'),
 ('e19650270973f8e5e08d1c311b738e52', 'CB_PAKN', 'Yasou', '$2b$10$Y2/EGIiPxUO9tegX4YzIkeq0dfrn8bma4wJw8SSIiyqUjy1j2Ft.K', '2025-10-29 14:02:35', '2025-10-29 14:02:35'),
