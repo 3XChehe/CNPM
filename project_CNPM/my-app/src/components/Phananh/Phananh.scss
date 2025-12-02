@@ -1,0 +1,1896 @@
+// phananh.scss
+// ============================================
+// VARIABLES & MIXINS
+// ============================================
+
+// Color Palette
+// phananh.scss - Main Dashboard
+// ============================================
+// VARIABLES & MIXINS
+// ============================================
+
+// Color Palette
+$colors: (
+    primary: #007bff,
+    primary-dark: #0056b3,
+    primary-light: #e3f2fd,
+    secondary: #6c757d,
+    secondary-dark: #545b62,
+    success: #28a745,
+    success-light: #d4edda,
+    success-dark: #1e7e34,
+    danger: #dc3545,
+    danger-light: #f8d7da,
+    danger-dark: #bd2130,
+    warning: #ffc107,
+    warning-light: #fff3cd,
+    warning-dark: #d39e00,
+    info: #17a2b8,
+    info-light: #d1ecf1,
+    info-dark: #138496,
+    light: #f8f9fa,
+    dark: #343a40,
+    white: #ffffff,
+    gray-100: #f8f9fa,
+    gray-200: #e9ecef,
+    gray-300: #dee2e6,
+    gray-400: #ced4da,
+    gray-500: #adb5bd,
+    gray-600: #6c757d,
+    gray-700: #495057,
+    gray-800: #343a40,
+    gray-900: #212529
+);
+
+// Typography
+$font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$font-size-base: 14px;
+$line-height-base: 1.5;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Spacing
+$spacing-unit: 8px;
+$spacing-scale: (
+    1: $spacing-unit * 0.5,   // 4px
+    2: $spacing-unit,         // 8px
+    3: $spacing-unit * 1.5,   // 12px
+    4: $spacing-unit * 2,     // 16px
+    5: $spacing-unit * 2.5,   // 20px
+    6: $spacing-unit * 3,     // 24px
+    7: $spacing-unit * 3.5,   // 28px
+    8: $spacing-unit * 4      // 32px
+);
+
+// Border Radius
+$border-radius-xs: 4px;
+$border-radius-sm: 6px;
+$border-radius: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 16px;
+$border-radius-pill: 50px;
+
+// Shadows
+$shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+$shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+// Z-index layers
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+$z-index-toast: 1080;
+
+// Breakpoints
+$breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px
+);
+
+// Animation
+$transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin card-base {
+    background: map-get($colors, white);
+    border: 1px solid map-get($colors, gray-300);
+    border-radius: $border-radius;
+    box-shadow: $shadow;
+    transition: $transition-base;
+}
+
+@mixin button-base {
+    padding: 10px 20px;
+    border: none;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    transition: $transition-base;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px; // Touch-friendly
+    
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+    
+    &:focus {
+        outline: 2px solid rgba(map-get($colors, primary), 0.5);
+        outline-offset: 2px;
+    }
+    
+    &:active:not(:disabled) {
+        transform: translateY(1px);
+    }
+}
+
+@mixin responsive($breakpoint) {
+    @if map-has-key($breakpoints, $breakpoint) {
+        @media (min-width: map-get($breakpoints, $breakpoint)) {
+            @content;
+        }
+    } @else {
+        @warn "Breakpoint `#{$breakpoint}` not found in $breakpoints map.";
+    }
+}
+
+@mixin text-truncate($lines: 1) {
+    @if $lines == 1 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    } @else {
+        display: -webkit-box;
+        -webkit-line-clamp: $lines;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}
+
+// Animations
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+// ============================================
+// BASE STYLES
+// ============================================
+
+.phananh-container {
+    padding: map-get($spacing-scale, 5);
+    font-family: $font-family-base;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    animation: fadeIn 0.5s ease-out;
+    
+    @include responsive(md) {
+        padding: map-get($spacing-scale, 6);
+    }
+    
+    @include responsive(xl) {
+        padding: map-get($spacing-scale, 8);
+    }
+}
+
+// ============================================
+// HEADER SECTION
+// ============================================
+
+.phananh-header {
+    @include flex-between;
+    flex-wrap: wrap;
+    gap: map-get($spacing-scale, 4);
+    margin-bottom: map-get($spacing-scale, 8);
+    padding: map-get($spacing-scale, 6);
+    background: map-get($colors, white);
+    border-radius: $border-radius;
+    box-shadow: $shadow-lg;
+    border-left: 4px solid map-get($colors, primary);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, map-get($colors, primary), map-get($colors, success));
+        opacity: 0.1;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: $font-weight-bold;
+        color: map-get($colors, dark);
+        background: linear-gradient(135deg, map-get($colors, primary), map-get($colors, info));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        
+        @include responsive(md) {
+            font-size: 32px;
+        }
+        
+        @include responsive(lg) {
+            font-size: 36px;
+        }
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, map-get($colors, primary), map-get($colors, success));
+            border-radius: $border-radius-pill;
+        }
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: map-get($spacing-scale, 4);
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: map-get($spacing-scale, 3);
+            padding: map-get($spacing-scale, 3) map-get($spacing-scale, 4);
+            background: map-get($colors, gray-100);
+            border-radius: $border-radius-pill;
+            transition: $transition-base;
+            
+            &:hover {
+                background: map-get($colors, primary-light);
+                transform: translateY(-1px);
+                box-shadow: $shadow-sm;
+            }
+            
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, map-get($colors, primary), map-get($colors, success));
+                @include flex-center;
+                color: map-get($colors, white);
+                font-weight: $font-weight-bold;
+                font-size: 16px;
+                border: 2px solid map-get($colors, white);
+                box-shadow: $shadow-sm;
+            }
+            
+            .user-details {
+                @include flex-column;
+                
+                .user-name {
+                    font-weight: $font-weight-semibold;
+                    color: map-get($colors, dark);
+                    font-size: 14px;
+                }
+                
+                .user-role {
+                    font-size: 12px;
+                    color: map-get($colors, gray-600);
+                }
+            }
+        }
+        
+        .notifications {
+            position: relative;
+            
+            .notification-btn {
+                @include flex-center;
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                background: map-get($colors, gray-100);
+                border: none;
+                cursor: pointer;
+                transition: $transition-base;
+                
+                &:hover {
+                    background: map-get($colors, primary-light);
+                    transform: scale(1.05);
+                }
+                
+                .notification-icon {
+                    font-size: 20px;
+                    color: map-get($colors, gray-700);
+                }
+                
+                .notification-badge {
+                    position: absolute;
+                    top: 2px;
+                    right: 2px;
+                    width: 8px;
+                    height: 8px;
+                    background: map-get($colors, danger);
+                    border-radius: 50%;
+                    border: 2px solid map-get($colors, white);
+                }
+            }
+        }
+    }
+}
+
+// ============================================
+// DASHBOARD CONTROLS
+// ============================================
+
+.dashboard-controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: map-get($spacing-scale, 6);
+    margin-bottom: map-get($spacing-scale, 8);
+    
+    @include responsive(lg) {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: map-get($spacing-scale, 4);
+    align-items: center;
+    
+    .btn {
+        @include button-base;
+        font-weight: $font-weight-semibold;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        font-size: 13px;
+        
+        &.btn-primary {
+            background: linear-gradient(135deg, map-get($colors, primary), map-get($colors, primary-dark));
+            color: map-get($colors, white);
+            box-shadow: $shadow-md;
+            
+            &:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: $shadow-lg;
+                background: linear-gradient(135deg, map-get($colors, primary-dark), darken(map-get($colors, primary-dark), 5%));
+            }
+            
+            .btn-icon {
+                font-size: 18px;
+            }
+        }
+        
+        &.btn-secondary {
+            background: map-get($colors, gray-200);
+            color: map-get($colors, dark);
+            border: 1px solid map-get($colors, gray-300);
+            
+            &:hover:not(:disabled) {
+                background: map-get($colors, gray-300);
+                transform: translateY(-1px);
+            }
+        }
+        
+        &.btn-success {
+            background: linear-gradient(135deg, map-get($colors, success), map-get($colors, success-dark));
+            color: map-get($colors, white);
+            
+            &:hover:not(:disabled) {
+                background: linear-gradient(135deg, map-get($colors, success-dark), darken(map-get($colors, success-dark), 5%));
+            }
+        }
+        
+        &.btn-outline {
+            background: transparent;
+            border: 2px solid map-get($colors, primary);
+            color: map-get($colors, primary);
+            
+            &:hover:not(:disabled) {
+                background: map-get($colors, primary);
+                color: map-get($colors, white);
+            }
+        }
+    }
+    
+    .btn-group {
+        display: flex;
+        gap: map-get($spacing-scale, 2);
+        
+        .btn {
+            border-radius: $border-radius-sm;
+            
+            &:first-child {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+            
+            &:last-child {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+    }
+}
+
+.search-filters {
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacing-scale, 4);
+    
+    @include responsive(sm) {
+        flex-direction: row;
+    }
+    
+    .search-box {
+        flex: 1;
+        position: relative;
+        
+        .search-input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 2px solid map-get($colors, gray-300);
+            border-radius: $border-radius-lg;
+            font-size: $font-size-base;
+            background: map-get($colors, white);
+            color: map-get($colors, dark);
+            transition: $transition-base;
+            box-shadow: $shadow-sm;
+            
+            &:focus {
+                outline: none;
+                border-color: map-get($colors, primary);
+                box-shadow: 0 0 0 3px rgba(map-get($colors, primary), 0.1), $shadow-md;
+                
+                + .search-icon {
+                    color: map-get($colors, primary);
+                    transform: scale(1.1);
+                }
+            }
+            
+            &::placeholder {
+                color: map-get($colors, gray-500);
+            }
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: map-get($colors, gray-500);
+            font-size: 18px;
+            pointer-events: none;
+            transition: $transition-base;
+        }
+        
+        .search-clear {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: map-get($colors, gray-500);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            transition: $transition-base;
+            
+            &:hover {
+                color: map-get($colors, danger);
+                background: map-get($colors, gray-200);
+            }
+        }
+    }
+    
+    .filter-dropdown {
+        min-width: 200px;
+        
+        .filter-select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid map-get($colors, gray-300);
+            border-radius: $border-radius-lg;
+            font-size: $font-size-base;
+            background: map-get($colors, white);
+            color: map-get($colors, dark);
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 44px;
+            transition: $transition-base;
+            box-shadow: $shadow-sm;
+            
+            &:focus {
+                outline: none;
+                border-color: map-get($colors, primary);
+                box-shadow: 0 0 0 3px rgba(map-get($colors, primary), 0.1), $shadow-md;
+            }
+            
+            &:disabled {
+                background-color: map-get($colors, gray-100);
+                color: map-get($colors, gray-600);
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+
+// ============================================
+// STATISTICS DASHBOARD
+// ============================================
+
+.statistics-dashboard {
+    margin-bottom: map-get($spacing-scale, 8);
+}
+
+.dashboard-header {
+    @include flex-between;
+    margin-bottom: map-get($spacing-scale, 6);
+    
+    h2 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: $font-weight-bold;
+        color: map-get($colors, dark);
+        display: flex;
+        align-items: center;
+        gap: map-get($spacing-scale, 3);
+        
+        @include responsive(md) {
+            font-size: 28px;
+        }
+        
+        &::before {
+            content: '📊';
+            font-size: 28px;
+        }
+    }
+    
+    .time-range {
+        display: flex;
+        gap: map-get($spacing-scale, 2);
+        
+        .time-btn {
+            padding: 8px 16px;
+            border: 1px solid map-get($colors, gray-300);
+            background: map-get($colors, white);
+            border-radius: $border-radius-sm;
+            font-size: 13px;
+            font-weight: $font-weight-medium;
+            color: map-get($colors, gray-700);
+            cursor: pointer;
+            transition: $transition-fast;
+            
+            &:hover:not(.active) {
+                border-color: map-get($colors, primary);
+                color: map-get($colors, primary);
+            }
+            
+            &.active {
+                background: map-get($colors, primary);
+                color: map-get($colors, white);
+                border-color: map-get($colors, primary);
+            }
+        }
+    }
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: map-get($spacing-scale, 5);
+    margin-bottom: map-get($spacing-scale, 8);
+    
+    @include responsive(xl) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .stat-card {
+        @include card-base;
+        padding: map-get($spacing-scale, 6);
+        position: relative;
+        overflow: hidden;
+        
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: $shadow-xl;
+            
+            &::before {
+                transform: translateX(0);
+            }
+            
+            .stat-icon {
+                transform: scale(1.1) rotate(5deg);
+            }
+        }
+        
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--stat-color, map-get($colors, primary)), var(--stat-color-light, map-get($colors, primary-light)));
+            transform: translateX(-100%);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        &.total {
+            --stat-color: #{map-get($colors, primary)};
+            --stat-color-light: #{map-get($colors, info)};
+        }
+        
+        &.resolved {
+            --stat-color: #{map-get($colors, success)};
+            --stat-color-light: #{lighten(map-get($colors, success), 20%)};
+        }
+        
+        &.pending {
+            --stat-color: #{map-get($colors, warning)};
+            --stat-color-light: #{lighten(map-get($colors, warning), 20%)};
+        }
+        
+        &.urgent {
+            --stat-color: #{map-get($colors, danger)};
+            --stat-color-light: #{lighten(map-get($colors, danger), 20%)};
+        }
+        
+        .stat-content {
+            @include flex-between;
+            
+            .stat-info {
+                @include flex-column;
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: map-get($colors, gray-600);
+                    margin-bottom: map-get($spacing-scale, 2);
+                    font-weight: $font-weight-medium;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                
+                .stat-value {
+                    font-size: 36px;
+                    font-weight: $font-weight-bold;
+                    color: var(--stat-color, map-get($colors, dark));
+                    line-height: 1;
+                    margin-bottom: map-get($spacing-scale, 2);
+                }
+                
+                .stat-change {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    font-size: 12px;
+                    font-weight: $font-weight-medium;
+                    
+                    &.positive {
+                        color: map-get($colors, success);
+                        
+                        &::before {
+                            content: '↗';
+                        }
+                    }
+                    
+                    &.negative {
+                        color: map-get($colors, danger);
+                        
+                        &::before {
+                            content: '↘';
+                        }
+                    }
+                }
+            }
+            
+            .stat-icon {
+                width: 64px;
+                height: 64px;
+                border-radius: $border-radius-lg;
+                background: linear-gradient(135deg, var(--stat-color, map-get($colors, primary)), var(--stat-color-light, map-get($colors, primary-light)));
+                @include flex-center;
+                font-size: 28px;
+                color: map-get($colors, white);
+                transition: $transition-base;
+            }
+        }
+    }
+}
+
+.chart-container {
+    @include card-base;
+    padding: map-get($spacing-scale, 6);
+    margin-bottom: map-get($spacing-scale, 8);
+    
+    .chart-header {
+        @include flex-between;
+        margin-bottom: map-get($spacing-scale, 6);
+        
+        h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: $font-weight-semibold;
+            color: map-get($colors, dark);
+            display: flex;
+            align-items: center;
+            gap: map-get($spacing-scale, 3);
+            
+            &::before {
+                content: '📈';
+                font-size: 24px;
+            }
+        }
+    }
+    
+    .chart-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: map-get($spacing-scale, 8);
+        
+        @include responsive(lg) {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    
+    .chart-wrapper {
+        @include flex-column;
+        align-items: center;
+        
+        .chart-title {
+            font-size: 16px;
+            font-weight: $font-weight-semibold;
+            color: map-get($colors, gray-700);
+            margin-bottom: map-get($spacing-scale, 4);
+        }
+    }
+    
+    .pie-chart-container {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin-bottom: map-get($spacing-scale, 5);
+        
+        .pie-chart {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                map-get($colors, success) 0% var(--percentage-resolved),
+                map-get($colors, warning) var(--percentage-resolved) var(--percentage-pending),
+                map-get($colors, danger) var(--percentage-pending) 100%
+            );
+            position: relative;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 100px;
+                height: 100px;
+                background: map-get($colors, white);
+                border-radius: 50%;
+                box-shadow: inset $shadow-sm;
+            }
+        }
+        
+        .chart-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            
+            .chart-total {
+                font-size: 24px;
+                font-weight: $font-weight-bold;
+                color: map-get($colors, dark);
+            }
+            
+            .chart-label {
+                font-size: 12px;
+                color: map-get($colors, gray-600);
+                margin-top: 4px;
+            }
+        }
+    }
+    
+    .chart-legend {
+        display: flex;
+        flex-direction: column;
+        gap: map-get($spacing-scale, 3);
+        width: 100%;
+        max-width: 300px;
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: map-get($spacing-scale, 3) map-get($spacing-scale, 4);
+            background: map-get($colors, gray-100);
+            border-radius: $border-radius-sm;
+            border-left: 4px solid;
+            transition: $transition-fast;
+            
+            &:hover {
+                transform: translateX(4px);
+                background: map-get($colors, white);
+                box-shadow: $shadow-sm;
+            }
+            
+            &.resolved {
+                border-left-color: map-get($colors, success);
+            }
+            
+            &.pending {
+                border-left-color: map-get($colors, warning);
+            }
+            
+            &.unresolved {
+                border-left-color: map-get($colors, danger);
+            }
+            
+            .legend-info {
+                display: flex;
+                align-items: center;
+                gap: map-get($spacing-scale, 3);
+                
+                .legend-color {
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                }
+                
+                .legend-label {
+                    font-size: 14px;
+                    font-weight: $font-weight-medium;
+                    color: map-get($colors, gray-800);
+                }
+            }
+            
+            .legend-value {
+                font-size: 16px;
+                font-weight: $font-weight-bold;
+                color: map-get($colors, dark);
+            }
+        }
+    }
+}
+
+// ============================================
+// GROUPS SECTION
+// ============================================
+
+.groups-section {
+    margin-bottom: map-get($spacing-scale, 8);
+    
+    .section-header {
+        @include flex-between;
+        margin-bottom: map-get($spacing-scale, 6);
+        
+        h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: $font-weight-bold;
+            color: map-get($colors, dark);
+            display: flex;
+            align-items: center;
+            gap: map-get($spacing-scale, 3);
+            
+            @include responsive(md) {
+                font-size: 28px;
+            }
+            
+            &::before {
+                content: '👥';
+                font-size: 28px;
+            }
+        }
+        
+        .section-actions {
+            display: flex;
+            gap: map-get($spacing-scale, 3);
+        }
+    }
+}
+
+.groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: map-get($spacing-scale, 5);
+    
+    @include responsive(xl) {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    }
+}
+
+.group-card {
+    @include card-base;
+    padding: map-get($spacing-scale, 6);
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+    
+    @for $i from 1 through 12 {
+        &:nth-child(#{$i}) {
+            animation-delay: #{$i * 0.05}s;
+        }
+    }
+    
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: $shadow-xl;
+        
+        &::before {
+            transform: translateX(0);
+        }
+        
+        .group-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, map-get($colors, primary), map-get($colors, success));
+        transform: translateX(-100%);
+        transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    .group-header {
+        @include flex-between;
+        margin-bottom: map-get($spacing-scale, 4);
+        position: relative;
+        z-index: 1;
+        
+        .group-title {
+            flex: 1;
+            margin-right: map-get($spacing-scale, 4);
+            
+            h3 {
+                margin: 0 0 map-get($spacing-scale, 2) 0;
+                font-size: 18px;
+                font-weight: $font-weight-semibold;
+                color: map-get($colors, dark);
+                @include text-truncate(1);
+                
+                a {
+                    color: inherit;
+                    text-decoration: none;
+                    
+                    &:hover {
+                        color: map-get($colors, primary);
+                    }
+                }
+            }
+            
+            .group-code {
+                font-size: 12px;
+                color: map-get($colors, gray-600);
+                font-family: 'Monaco', 'Courier New', monospace;
+                letter-spacing: 0.5px;
+            }
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: $border-radius-pill;
+            font-size: 11px;
+            font-weight: $font-weight-bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            
+            &.active {
+                background: rgba(map-get($colors, success), 0.1);
+                color: map-get($colors, success);
+                border: 1px solid rgba(map-get($colors, success), 0.2);
+            }
+            
+            &.inactive {
+                background: rgba(map-get($colors, secondary), 0.1);
+                color: map-get($colors, secondary);
+                border: 1px solid rgba(map-get($colors, secondary), 0.2);
+            }
+            
+            &.archived {
+                background: rgba(map-get($colors, warning), 0.1);
+                color: map-get($colors, warning-dark);
+                border: 1px solid rgba(map-get($colors, warning), 0.2);
+            }
+        }
+    }
+    
+    .group-description {
+        color: map-get($colors, gray-700);
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: map-get($spacing-scale, 5);
+        @include text-truncate(3);
+    }
+    
+    .group-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: map-get($spacing-scale, 3);
+        margin-bottom: map-get($spacing-scale, 5);
+        padding: map-get($spacing-scale, 4);
+        background: map-get($colors, gray-100);
+        border-radius: $border-radius;
+        
+        .stat-item {
+            text-align: center;
+            
+            .stat-value {
+                display: block;
+                font-size: 20px;
+                font-weight: $font-weight-bold;
+                color: map-get($colors, dark);
+                margin-bottom: 2px;
+            }
+            
+            .stat-label {
+                font-size: 11px;
+                color: map-get($colors, gray-600);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+        }
+    }
+    
+    .group-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: map-get($spacing-scale, 4);
+        padding-top: map-get($spacing-scale, 4);
+        border-top: 1px solid map-get($colors, gray-200);
+        
+        .group-date {
+            font-size: 12px;
+            color: map-get($colors, gray-600);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            
+            &::before {
+                content: '📅';
+                font-size: 14px;
+            }
+        }
+        
+        .group-manager {
+            font-size: 12px;
+            color: map-get($colors, gray-600);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            
+            &::before {
+                content: '👤';
+                font-size: 14px;
+            }
+        }
+    }
+    
+    .group-actions {
+        display: flex;
+        gap: map-get($spacing-scale, 3);
+        opacity: 0;
+        transform: translateY(10px);
+        transition: $transition-base;
+        
+        .btn {
+            @include button-base;
+            flex: 1;
+            padding: 10px;
+            font-size: 13px;
+            font-weight: $font-weight-medium;
+            
+            &.btn-view {
+                background: map-get($colors, primary-light);
+                color: map-get($colors, primary);
+                
+                &:hover:not(:disabled) {
+                    background: map-get($colors, primary);
+                    color: map-get($colors, white);
+                }
+            }
+            
+            &.btn-edit {
+                background: map-get($colors, warning-light);
+                color: map-get($colors, warning-dark);
+                
+                &:hover:not(:disabled) {
+                    background: map-get($colors, warning);
+                    color: map-get($colors, white);
+                }
+            }
+        }
+    }
+}
+
+// ============================================
+// FEEDBACKS SECTION
+// ============================================
+
+.feedbacks-section {
+    margin-bottom: map-get($spacing-scale, 8);
+    
+    .section-header {
+        @include flex-between;
+        margin-bottom: map-get($spacing-scale, 6);
+        
+        h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: $font-weight-bold;
+            color: map-get($colors, dark);
+            display: flex;
+            align-items: center;
+            gap: map-get($spacing-scale, 3);
+            
+            @include responsive(md) {
+                font-size: 28px;
+            }
+            
+            &::before {
+                content: '💬';
+                font-size: 28px;
+            }
+        }
+        
+        .view-all {
+            font-size: 14px;
+            font-weight: $font-weight-medium;
+            color: map-get($colors, primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: $transition-fast;
+            
+            &:hover {
+                color: map-get($colors, primary-dark);
+                gap: 8px;
+                
+                &::after {
+                    content: '→';
+                }
+            }
+        }
+    }
+}
+
+.feedbacks-list {
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacing-scale, 4);
+}
+
+.feedback-card {
+    @include card-base;
+    padding: map-get($spacing-scale, 5);
+    animation: slideInRight 0.5s ease-out;
+    animation-fill-mode: both;
+    
+    @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+            animation-delay: #{$i * 0.05}s;
+        }
+    }
+    
+    &:hover {
+        transform: translateX(4px);
+        box-shadow: $shadow-lg;
+        border-color: map-get($colors, primary);
+    }
+    
+    .feedback-header {
+        @include flex-between;
+        margin-bottom: map-get($spacing-scale, 3);
+        
+        .feedback-info {
+            display: flex;
+            align-items: center;
+            gap: map-get($spacing-scale, 3);
+            
+            .feedback-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, map-get($colors, info), map-get($colors, primary));
+                @include flex-center;
+                color: map-get($colors, white);
+                font-weight: $font-weight-bold;
+                font-size: 16px;
+            }
+            
+            .feedback-title {
+                h4 {
+                    margin: 0 0 4px 0;
+                    font-size: 16px;
+                    font-weight: $font-weight-semibold;
+                    color: map-get($colors, dark);
+                }
+                
+                .feedback-id {
+                    font-size: 12px;
+                    color: map-get($colors, gray-600);
+                    font-family: 'Monaco', 'Courier New', monospace;
+                }
+            }
+        }
+        
+        .feedback-status {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+            
+            .status-badge {
+                padding: 4px 10px;
+                border-radius: $border-radius-pill;
+                font-size: 11px;
+                font-weight: $font-weight-bold;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                
+                &.new {
+                    background: rgba(map-get($colors, info), 0.1);
+                    color: map-get($colors, info);
+                    border: 1px solid rgba(map-get($colors, info), 0.2);
+                }
+                
+                &.in-progress {
+                    background: rgba(map-get($colors, warning), 0.1);
+                    color: map-get($colors, warning-dark);
+                    border: 1px solid rgba(map-get($colors, warning), 0.2);
+                }
+                
+                &.resolved {
+                    background: rgba(map-get($colors, success), 0.1);
+                    color: map-get($colors, success);
+                    border: 1px solid rgba(map-get($colors, success), 0.2);
+                }
+                
+                &.closed {
+                    background: rgba(map-get($colors, secondary), 0.1);
+                    color: map-get($colors, secondary);
+                    border: 1px solid rgba(map-get($colors, secondary), 0.2);
+                }
+            }
+            
+            .feedback-date {
+                font-size: 12px;
+                color: map-get($colors, gray-600);
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                
+                &::before {
+                    content: '🕒';
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+    
+    .feedback-content {
+        margin-bottom: map-get($spacing-scale, 4);
+        
+        p {
+            margin: 0;
+            color: map-get($colors, gray-700);
+            line-height: 1.6;
+            font-size: 14px;
+            @include text-truncate(3);
+        }
+    }
+    
+    .feedback-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        .feedback-contact {
+            display: flex;
+            gap: map-get($spacing-scale, 4);
+            
+            .contact-item {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 13px;
+                color: map-get($colors, gray-600);
+                
+                &.email::before {
+                    content: '📧';
+                    font-size: 14px;
+                }
+                
+                &.phone::before {
+                    content: '📱';
+                    font-size: 14px;
+                }
+            }
+        }
+        
+        .feedback-group {
+            font-size: 12px;
+            color: map-get($colors, primary);
+            font-weight: $font-weight-medium;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            
+            &::before {
+                content: '🏷️';
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+// ============================================
+// HISTORY SECTION
+// ============================================
+
+.history-section {
+    margin-bottom: map-get($spacing-scale, 8);
+    
+    .section-header {
+        margin-bottom: map-get($spacing-scale, 6);
+        
+        h2 {
+            margin: 0 0 map-get($spacing-scale, 2) 0;
+            font-size: 24px;
+            font-weight: $font-weight-bold;
+            color: map-get($colors, dark);
+            display: flex;
+            align-items: center;
+            gap: map-get($spacing-scale, 3);
+            
+            @include responsive(md) {
+                font-size: 28px;
+            }
+            
+            &::before {
+                content: '📋';
+                font-size: 28px;
+            }
+        }
+        
+        .section-description {
+            color: map-get($colors, gray-600);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    }
+}
+
+.history-timeline {
+    position: relative;
+    padding-left: map-get($spacing-scale, 6);
+    
+    &::before {
+        content: '';
+        position: absolute;
+        left: 15px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, 
+            map-get($colors, primary) 0%,
+            map-get($colors, success) 50%,
+            map-get($colors, info) 100%
+        );
+        opacity: 0.2;
+    }
+}
+
+.history-item {
+    position: relative;
+    margin-bottom: map-get($spacing-scale, 6);
+    animation: slideInLeft 0.5s ease-out;
+    animation-fill-mode: both;
+    
+    @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+            animation-delay: #{$i * 0.05}s;
+        }
+    }
+    
+    &::before {
+        content: '';
+        position: absolute;
+        left: -23px;
+        top: 8px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--item-color, map-get($colors, primary));
+        border: 3px solid map-get($colors, white);
+        box-shadow: $shadow-sm;
+        z-index: 1;
+    }
+    
+    &.create {
+        --item-color: #{map-get($colors, success)};
+    }
+    
+    &.update {
+        --item-color: #{map-get($colors, warning)};
+    }
+    
+    &.delete {
+        --item-color: #{map-get($colors, danger)};
+    }
+    
+    &.status-change {
+        --item-color: #{map-get($colors, info)};
+    }
+    
+    .history-card {
+        @include card-base;
+        padding: map-get($spacing-scale, 5);
+        
+        &:hover {
+            transform: translateX(4px);
+            box-shadow: $shadow-lg;
+            border-left: 4px solid var(--item-color, map-get($colors, primary));
+        }
+        
+        .history-header {
+            @include flex-between;
+            margin-bottom: map-get($spacing-scale, 3);
+            
+            .history-type {
+                font-size: 12px;
+                font-weight: $font-weight-bold;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: var(--item-color, map-get($colors, primary));
+                padding: 4px 10px;
+                background: rgba(var(--item-color, map-get($colors, primary)), 0.1);
+                border-radius: $border-radius-pill;
+            }
+            
+            .history-time {
+                font-size: 12px;
+                color: map-get($colors, gray-600);
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                
+                &::before {
+                    content: '🕒';
+                    font-size: 11px;
+                }
+            }
+        }
+        
+        .history-content {
+            margin-bottom: map-get($spacing-scale, 3);
+            
+            .history-title {
+                font-size: 16px;
+                font-weight: $font-weight-semibold;
+                color: map-get($colors, dark);
+                margin: 0 0 map-get($spacing-scale, 2) 0;
+            }
+            
+            .history-description {
+                color: map-get($colors, gray-700);
+                font-size: 14px;
+                line-height: 1.5;
+                margin: 0;
+            }
+        }
+        
+        .history-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: map-get($spacing-scale, 3);
+            border-top: 1px solid map-get($colors, gray-200);
+            
+            .history-user {
+                display: flex;
+                align-items: center;
+                gap: map-get($spacing-scale, 2);
+                
+                .user-avatar {
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    background: linear-gradient(135deg, map-get($colors, primary), map-get($colors, info));
+                    @include flex-center;
+                    color: map-get($colors, white);
+                    font-size: 10px;
+                    font-weight: $font-weight-bold;
+                }
+                
+                .user-name {
+                    font-size: 13px;
+                    color: map-get($colors, gray-700);
+                    font-weight: $font-weight-medium;
+                }
+            }
+            
+            .history-object {
+                font-size: 12px;
+                color: map-get($colors, primary);
+                font-weight: $font-weight-medium;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                
+                &::before {
+                    content: '📄';
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+// ============================================
+// UTILITY CLASSES
+// ============================================
+
+// Text utilities
+.text-primary { color: map-get($colors, primary) !important; }
+.text-success { color: map-get($colors, success) !important; }
+.text-danger { color: map-get($colors, danger) !important; }
+.text-warning { color: map-get($colors, warning) !important; }
+.text-info { color: map-get($colors, info) !important; }
+.text-muted { color: map-get($colors, gray-600) !important; }
+
+// Background utilities
+.bg-primary { background-color: map-get($colors, primary) !important; }
+.bg-success { background-color: map-get($colors, success) !important; }
+.bg-danger { background-color: map-get($colors, danger) !important; }
+.bg-warning { background-color: map-get($colors, warning) !important; }
+.bg-info { background-color: map-get($colors, info) !important; }
+.bg-light { background-color: map-get($colors, gray-100) !important; }
+
+// Spacing utilities
+@each $size, $value in $spacing-scale {
+    .m-#{$size} { margin: $value !important; }
+    .mt-#{$size} { margin-top: $value !important; }
+    .mr-#{$size} { margin-right: $value !important; }
+    .mb-#{$size} { margin-bottom: $value !important; }
+    .ml-#{$size} { margin-left: $value !important; }
+    .mx-#{$size} { margin-left: $value !important; margin-right: $value !important; }
+    .my-#{$size} { margin-top: $value !important; margin-bottom: $value !important; }
+    
+    .p-#{$size} { padding: $value !important; }
+    .pt-#{$size} { padding-top: $value !important; }
+    .pr-#{$size} { padding-right: $value !important; }
+    .pb-#{$size} { padding-bottom: $value !important; }
+    .pl-#{$size} { padding-left: $value !important; }
+    .px-#{$size} { padding-left: $value !important; padding-right: $value !important; }
+    .py-#{$size} { padding-top: $value !important; padding-bottom: $value !important; }
+}
+
+// Display utilities
+.d-none { display: none !important; }
+.d-block { display: block !important; }
+.d-inline { display: inline !important; }
+.d-inline-block { display: inline-block !important; }
+.d-flex { display: flex !important; }
+.d-inline-flex { display: inline-flex !important; }
+
+// Flex utilities
+.flex-column { flex-direction: column !important; }
+.flex-wrap { flex-wrap: wrap !important; }
+.justify-content-start { justify-content: flex-start !important; }
+.justify-content-end { justify-content: flex-end !important; }
+.justify-content-center { justify-content: center !important; }
+.justify-content-between { justify-content: space-between !important; }
+.justify-content-around { justify-content: space-around !important; }
+.align-items-start { align-items: flex-start !important; }
+.align-items-end { align-items: flex-end !important; }
+.align-items-center { align-items: center !important; }
+.align-items-baseline { align-items: baseline !important; }
+.align-items-stretch { align-items: stretch !important; }
+
+// Visibility utilities
+.visible { visibility: visible !important; }
+.invisible { visibility: hidden !important; }
+
+// Cursor utilities
+.cursor-pointer { cursor: pointer !important; }
+.cursor-default { cursor: default !important; }
+.cursor-not-allowed { cursor: not-allowed !important; }
+
+// Animation utilities
+.animate-fade-in { animation: fadeIn 0.5s ease-out; }
+.animate-slide-in-right { animation: slideInRight 0.5s ease-out; }
+.animate-slide-in-left { animation: slideInLeft 0.5s ease-out; }
+.animate-pulse { animation: pulse 2s infinite; }
+.animate-spin { animation: spin 1s linear infinite; }
+
+// Loading state
+.loading {
+    position: relative;
+    overflow: hidden;
+    
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        animation: shimmer 1.5s infinite;
+    }
+}
+
+// Skeleton loader
+.skeleton {
+    background: linear-gradient(90deg, map-get($colors, gray-200) 25%, map-get($colors, gray-300) 50%, map-get($colors, gray-200) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: $border-radius-sm;
+    
+    &.skeleton-text {
+        height: 1em;
+        margin-bottom: 0.5em;
+        
+        &:last-child {
+            margin-bottom: 0;
+        }
+        
+        &.skeleton-title {
+            height: 1.5em;
+            width: 70%;
+        }
+        
+        &.skeleton-paragraph {
+            height: 0.8em;
+            width: 100%;
+        }
+    }
+}
+
+// ============================================
+// RESPONSIVE ADJUSTMENTS
+// ============================================
+
+@media (max-width: map-get($breakpoints, md)) {
+    .phananh-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: map-get($spacing-scale, 4);
+        
+        .header-actions {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+    
+    .dashboard-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        justify-content: center;
+    }
+    
+    .search-filters {
+        flex-direction: column;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .groups-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .feedback-header,
+    .history-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: map-get($spacing-scale, 3);
+        
+        .feedback-status,
+        .history-time {
+            align-self: flex-start;
+        }
+    }
+}
+
+@media (max-width: map-get($breakpoints, sm)) {
+    .phananh-container {
+        padding: map-get($spacing-scale, 3);
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        
+        .btn {
+            width: 100%;
+        }
+    }
+    
+    .group-stats {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+    
+    .feedback-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: map-get($spacing-scale, 3);
+    }
+}
+
+@media (max-width: 480px) {
+    .group-actions {
+        flex-direction: column;
+        
+        .btn {
+            width: 100%;
+        }
+    }
+    
+    .chart-content {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+// ============================================
+// PRINT STYLES
+// ============================================
+
+@media print {
+    .phananh-container {
+        padding: 0;
+        background: none;
+    }
+    
+    .action-buttons,
+    .search-filters,
+    .group-actions,
+    .btn,
+    .notifications,
+    .view-all {
+        display: none !important;
+    }
+    
+    .phananh-header,
+    .stat-card,
+    .chart-container,
+    .group-card,
+    .feedback-card,
+    .history-card {
+        box-shadow: none !important;
+        border: 1px solid map-get($colors, gray-400) !important;
+        page-break-inside: avoid;
+    }
+    
+    .stats-grid,
+    .groups-grid {
+        page-break-inside: avoid;
+    }
+    
+    h1, h2, h3, h4 {
+        page-break-after: avoid;
+    }
+}

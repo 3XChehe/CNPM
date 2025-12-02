@@ -1,0 +1,979 @@
+// GroupDetail.scss
+// ============================================
+// GROUP DETAIL PAGE STYLES
+// ============================================
+
+@import '../Phananh.scss'; // Import variables and mixins
+
+// ============================================
+// MAIN CONTAINER
+// ============================================
+
+.group-detail-view {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: map-get($spacing-scale, 5);
+    animation: fadeIn 0.5s ease-out;
+    
+    @include responsive(md) {
+        padding: map-get($spacing-scale, 6);
+    }
+    
+    @include responsive(lg) {
+        padding: map-get($spacing-scale, 8);
+    }
+}
+
+// ============================================
+// HEADER SECTION
+// ============================================
+
+.detail-header {
+    margin-bottom: map-get($spacing-scale, 8);
+    
+    .btn-back {
+        @include button-base;
+        background: map-get($colors, gray-200);
+        color: map-get($colors, gray-800);
+        border: 1px solid map-get($colors, gray-300);
+        margin-bottom: map-get($spacing-scale, 4);
+        display: inline-flex;
+        align-items: center;
+        gap: map-get($spacing-scale, 2);
+        
+        &:hover:not(:disabled) {
+            background: map-get($colors, gray-300);
+            transform: translateX(-4px);
+        }
+    }
+    
+    h2 {
+        font-size: 28px;
+        font-weight: $font-weight-bold;
+        color: map-get($colors, dark);
+        margin: 0;
+        background: linear-gradient(135deg, 
+            map-get($colors, primary), 
+            map-get($colors, info)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        
+        @include responsive(md) {
+            font-size: 32px;
+        }
+        
+        @include responsive(lg) {
+            font-size: 36px;
+        }
+    }
+}
+
+// ============================================
+// GROUP INFO SECTION
+// ============================================
+
+.group-info {
+    margin-bottom: map-get($spacing-scale, 8);
+}
+
+.info-card {
+    @include card-base;
+    padding: map-get($spacing-scale, 8);
+    background: map-get($colors, white);
+    
+    h3 {
+        margin-top: 0;
+        margin-bottom: map-get($spacing-scale, 6);
+        color: map-get($colors, dark);
+        font-size: 22px;
+        font-weight: $font-weight-semibold;
+        display: flex;
+        align-items: center;
+        gap: map-get($spacing-scale, 3);
+        
+        &::before {
+            content: '';
+            width: 6px;
+            height: 24px;
+            background: linear-gradient(to bottom, 
+                map-get($colors, primary), 
+                map-get($colors, info)
+            );
+            border-radius: $border-radius-pill;
+        }
+    }
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: map-get($spacing-scale, 6);
+    margin-bottom: map-get($spacing-scale, 6);
+    
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: map-get($spacing-scale, 2);
+        padding: map-get($spacing-scale, 4);
+        background: map-get($colors, gray-100);
+        border-radius: $border-radius;
+        border-left: 4px solid map-get($colors, primary);
+        transition: $transition-base;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: $shadow-sm;
+            background: map-get($colors, white);
+        }
+        
+        strong {
+            color: map-get($colors, gray-700);
+            font-size: 14px;
+            font-weight: $font-weight-medium;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        p, span {
+            color: map-get($colors, dark);
+            font-size: 16px;
+            margin: 0;
+            line-height: 1.4;
+        }
+        
+        .stat-number {
+            font-size: 28px;
+            font-weight: $font-weight-bold;
+            color: map-get($colors, primary);
+            line-height: 1;
+        }
+        
+        .stat-resolved {
+            font-size: 24px;
+            font-weight: $font-weight-bold;
+            color: map-get($colors, success);
+            line-height: 1;
+        }
+        
+        .stat-unresolved {
+            font-size: 24px;
+            font-weight: $font-weight-bold;
+            color: map-get($colors, danger);
+            line-height: 1;
+        }
+    }
+}
+
+.chart-toggle {
+    text-align: center;
+    margin-top: map-get($spacing-scale, 6);
+    padding-top: map-get($spacing-scale, 6);
+    border-top: 1px solid map-get($colors, gray-200);
+    
+    .btn {
+        @include button-base;
+        padding: 12px 24px;
+        font-weight: $font-weight-semibold;
+        
+        &.btn-outline {
+            background: transparent;
+            border: 2px solid map-get($colors, primary);
+            color: map-get($colors, primary);
+            
+            &:hover:not(:disabled) {
+                background: map-get($colors, primary);
+                color: map-get($colors, white);
+                transform: translateY(-2px);
+            }
+        }
+        
+        &.btn-primary {
+            background: linear-gradient(135deg, 
+                map-get($colors, primary), 
+                map-get($colors, primary-dark)
+            );
+            color: map-get($colors, white);
+            
+            &:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: $shadow-md;
+            }
+        }
+    }
+}
+
+// ============================================
+// CHART SECTION
+// ============================================
+
+.chart-section {
+    @include card-base;
+    padding: map-get($spacing-scale, 8);
+    margin-bottom: map-get($spacing-scale, 8);
+    background: linear-gradient(135deg, 
+        map-get($colors, white), 
+        map-get($colors, gray-100)
+    );
+    animation: slideInDown 0.6s ease-out;
+    
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    h4 {
+        margin-top: 0;
+        margin-bottom: map-get($spacing-scale, 6);
+        color: map-get($colors, dark);
+        font-size: 20px;
+        font-weight: $font-weight-semibold;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: map-get($spacing-scale, 3);
+        
+        &::before {
+            content: '📊';
+            font-size: 24px;
+        }
+    }
+}
+
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: map-get($spacing-scale, 8);
+    
+    @include responsive(md) {
+        flex-direction: row;
+        justify-content: center;
+        gap: map-get($spacing-scale, 12);
+    }
+}
+
+.pie-chart {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: conic-gradient(
+        map-get($colors, success) 0% var(--percentage),
+        map-get($colors, danger) var(--percentage) 100%
+    );
+    position: relative;
+    box-shadow: $shadow-lg;
+    animation: rotateIn 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    @keyframes rotateIn {
+        from {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0.5);
+        }
+        to {
+            opacity: 1;
+            transform: rotate(0) scale(1);
+        }
+    }
+    
+    .chart-segment {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        
+        span {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 16px;
+            border-radius: $border-radius-pill;
+            font-size: 12px;
+            font-weight: $font-weight-bold;
+            box-shadow: $shadow-sm;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            
+            @include responsive(sm) {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+        }
+        
+        &.resolved {
+            span {
+                color: map-get($colors, success);
+            }
+        }
+        
+        &.unresolved {
+            span {
+                color: map-get($colors, danger);
+            }
+        }
+    }
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120px;
+        height: 120px;
+        background: map-get($colors, white);
+        border-radius: 50%;
+        box-shadow: inset $shadow-sm;
+    }
+}
+
+.chart-legend {
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacing-scale, 4);
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: map-get($spacing-scale, 4);
+        padding: map-get($spacing-scale, 4);
+        background: map-get($colors, white);
+        border-radius: $border-radius;
+        border: 1px solid map-get($colors, gray-200);
+        min-width: 250px;
+        transition: $transition-base;
+        
+        &:hover {
+            transform: translateX(4px);
+            box-shadow: $shadow-sm;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            
+            &.resolved {
+                background: map-get($colors, success);
+            }
+            
+            &.unresolved {
+                background: map-get($colors, danger);
+            }
+        }
+        
+        span {
+            color: map-get($colors, dark);
+            font-size: 14px;
+            font-weight: $font-weight-medium;
+            flex: 1;
+        }
+    }
+}
+
+// ============================================
+// TOOLBAR SECTION
+// ============================================
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: map-get($spacing-scale, 4);
+    margin-bottom: map-get($spacing-scale, 8);
+    padding: map-get($spacing-scale, 6);
+    background: map-get($colors, white);
+    border-radius: $border-radius;
+    box-shadow: $shadow-lg;
+    border-left: 4px solid map-get($colors, info);
+    
+    .toolbar-left {
+        display: flex;
+        flex-wrap: wrap;
+        gap: map-get($spacing-scale, 6);
+        flex: 1;
+        
+        @include responsive(sm) {
+            gap: map-get($spacing-scale, 8);
+        }
+    }
+    
+    .filter-control,
+    .search-control {
+        display: flex;
+        flex-direction: column;
+        gap: map-get($spacing-scale, 2);
+        
+        @include responsive(sm) {
+            flex-direction: row;
+            align-items: center;
+        }
+        
+        label {
+            font-weight: $font-weight-semibold;
+            color: map-get($colors, dark);
+            font-size: 14px;
+            white-space: nowrap;
+            min-width: 80px;
+        }
+        
+        .status-filter,
+        .search-input {
+            padding: 12px 16px;
+            border: 2px solid map-get($colors, gray-300);
+            border-radius: $border-radius-lg;
+            font-size: $font-size-base;
+            min-width: 200px;
+            transition: $transition-base;
+            background: map-get($colors, white);
+            
+            &:focus {
+                outline: none;
+                border-color: map-get($colors, info);
+                box-shadow: 0 0 0 3px rgba(map-get($colors, info), 0.1);
+            }
+        }
+        
+        .status-filter {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 44px;
+            
+            option {
+                padding: 8px;
+            }
+            
+            option[value="all"] {
+                color: map-get($colors, dark);
+                font-weight: $font-weight-medium;
+            }
+            
+            option[value="resolved"] {
+                color: map-get($colors, success);
+            }
+            
+            option[value="unresolved"] {
+                color: map-get($colors, danger);
+            }
+        }
+        
+        .search-input {
+            min-width: 250px;
+            
+            &::placeholder {
+                color: map-get($colors, gray-500);
+            }
+        }
+    }
+    
+    .toolbar-right {
+        .btn-primary {
+            @include button-base;
+            background: linear-gradient(135deg, 
+                map-get($colors, info), 
+                map-get($colors, info-dark)
+            );
+            color: map-get($colors, white);
+            padding: 14px 28px;
+            font-weight: $font-weight-semibold;
+            border-radius: $border-radius-lg;
+            box-shadow: $shadow-md;
+            display: flex;
+            align-items: center;
+            gap: map-get($spacing-scale, 2);
+            
+            &:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: $shadow-lg;
+                background: linear-gradient(135deg, 
+                    map-get($colors, info-dark), 
+                    darken(map-get($colors, info-dark), 5%)
+                );
+            }
+            
+            &:active:not(:disabled) {
+                transform: translateY(0);
+            }
+            
+            &::before {
+                content: '+';
+                font-size: 20px;
+                font-weight: $font-weight-bold;
+            }
+        }
+    }
+}
+
+// ============================================
+// FEEDBACKS SECTION
+// ============================================
+
+.feedbacks-section {
+    margin-bottom: map-get($spacing-scale, 8);
+}
+
+.section-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: map-get($spacing-scale, 4);
+    margin-bottom: map-get($spacing-scale, 6);
+    
+    h3 {
+        margin: 0;
+        color: map-get($colors, dark);
+        font-size: 22px;
+        font-weight: $font-weight-semibold;
+        display: flex;
+        align-items: center;
+        gap: map-get($spacing-scale, 3);
+        
+        &::before {
+            content: '📋';
+            font-size: 24px;
+        }
+    }
+    
+    .search-info {
+        background: map-get($colors, warning-light);
+        color: map-get($colors, warning-text);
+        padding: map-get($spacing-scale, 3) map-get($spacing-scale, 4);
+        border-radius: $border-radius;
+        font-size: 14px;
+        border: 1px solid map-get($colors, warning);
+        animation: fadeIn 0.5s ease-out;
+        
+        strong {
+            color: map-get($colors, warning-dark);
+            font-weight: $font-weight-semibold;
+        }
+    }
+}
+
+// ============================================
+// FEEDBACKS LIST
+// ============================================
+
+.feedbacks-list {
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacing-scale, 4);
+}
+
+.feedback-card {
+    @include card-base;
+    padding: map-get($spacing-scale, 6);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+    
+    @for $i from 1 through 20 {
+        &:nth-child(#{$i}) {
+            animation-delay: #{$i * 0.05}s;
+        }
+    }
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-lg;
+        border-color: map-get($colors, info);
+    }
+    
+    .feedback-header {
+        @include flex-between;
+        margin-bottom: map-get($spacing-scale, 4);
+        
+        @include responsive(sm) {
+            align-items: flex-start;
+        }
+        
+        .feedback-info {
+            flex: 1;
+            margin-right: map-get($spacing-scale, 4);
+            
+            h4 {
+                margin: 0 0 map-get($spacing-scale, 2) 0;
+                font-size: 18px;
+                font-weight: $font-weight-semibold;
+                color: map-get($colors, dark);
+            }
+            
+            .feedback-id {
+                font-size: 14px;
+                color: map-get($colors, gray-600);
+                
+                strong {
+                    color: map-get($colors, dark);
+                    font-weight: $font-weight-medium;
+                    font-family: 'Monaco', 'Courier New', monospace;
+                }
+            }
+        }
+        
+        .feedback-status {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: map-get($spacing-scale, 2);
+            
+            @include responsive(sm) {
+                align-items: flex-end;
+            }
+            
+            .status-badge {
+                padding: 6px 12px;
+                border-radius: $border-radius-pill;
+                font-size: 12px;
+                font-weight: $font-weight-bold;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                white-space: nowrap;
+                
+                &.resolved {
+                    background: rgba(map-get($colors, success), 0.1);
+                    color: map-get($colors, success);
+                    border: 1px solid rgba(map-get($colors, success), 0.2);
+                }
+                
+                &.unresolved {
+                    background: rgba(map-get($colors, danger), 0.1);
+                    color: map-get($colors, danger);
+                    border: 1px solid rgba(map-get($colors, danger), 0.2);
+                }
+            }
+            
+            .date {
+                color: map-get($colors, gray-600);
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                
+                &::before {
+                    content: '📅';
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+    
+    .feedback-content {
+        margin-bottom: map-get($spacing-scale, 4);
+        
+        p {
+            margin: 0;
+            color: map-get($colors, gray-700);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+    }
+    
+    .feedback-contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: map-get($spacing-scale, 4);
+        margin-bottom: map-get($spacing-scale, 4);
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: map-get($spacing-scale, 2);
+            
+            .contact-label {
+                font-weight: $font-weight-medium;
+                color: map-get($colors, gray-700);
+                font-size: 13px;
+            }
+            
+            .contact-value {
+                color: map-get($colors, dark);
+                font-size: 13px;
+            }
+        }
+    }
+    
+    .feedback-actions {
+        .btn-secondary {
+            @include button-base;
+            background: map-get($colors, gray-200);
+            color: map-get($colors, gray-800);
+            border: 1px solid map-get($colors, gray-300);
+            padding: 10px 20px;
+            font-size: 14px;
+            
+            &:hover:not(:disabled) {
+                background: map-get($colors, gray-300);
+                transform: translateY(-1px);
+            }
+            
+            &.resolved {
+                background: rgba(map-get($colors, success), 0.1);
+                color: map-get($colors, success);
+                border-color: rgba(map-get($colors, success), 0.2);
+                
+                &:hover:not(:disabled) {
+                    background: map-get($colors, success);
+                    color: map-get($colors, white);
+                }
+            }
+            
+            &.unresolved {
+                background: rgba(map-get($colors, danger), 0.1);
+                color: map-get($colors, danger);
+                border-color: rgba(map-get($colors, danger), 0.2);
+                
+                &:hover:not(:disabled) {
+                    background: map-get($colors, danger);
+                    color: map-get($colors, white);
+                }
+            }
+        }
+    }
+}
+
+// ============================================
+// EMPTY STATE
+// ============================================
+
+.empty-state {
+    @include card-base;
+    padding: map-get($spacing-scale, 12);
+    text-align: center;
+    color: map-get($colors, gray-600);
+    background: map-get($colors, gray-100);
+    border-radius: $border-radius;
+    border: 2px dashed map-get($colors, gray-300);
+    
+    p {
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.5;
+        
+        &:not(:last-child) {
+            margin-bottom: map-get($spacing-scale, 3);
+        }
+    }
+}
+
+// ============================================
+// LOADING STATES
+// ============================================
+
+.loading-state {
+    @include flex-center;
+    flex-direction: column;
+    padding: map-get($spacing-scale, 12);
+    
+    .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid map-get($colors, gray-200);
+        border-top-color: map-get($colors, primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: map-get($spacing-scale, 4);
+    }
+    
+    .loading-text {
+        color: map-get($colors, gray-600);
+        font-size: 14px;
+    }
+}
+
+// ============================================
+// ANIMATIONS
+// ============================================
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// ============================================
+// RESPONSIVE ADJUSTMENTS
+// ============================================
+
+@media (max-width: map-get($breakpoints, md)) {
+    .group-detail-view {
+        padding: map-get($spacing-scale, 4);
+    }
+    
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        
+        .toolbar-left {
+            flex-direction: column;
+            gap: map-get($spacing-scale, 4);
+            
+            .filter-control,
+            .search-control {
+                flex-direction: column;
+                align-items: stretch;
+                
+                .status-filter,
+                .search-input {
+                    width: 100%;
+                    min-width: unset;
+                }
+            }
+        }
+        
+        .toolbar-right {
+            width: 100%;
+            text-align: center;
+            
+            .btn-primary {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    }
+    
+    .chart-container {
+        flex-direction: column;
+    }
+    
+    .feedback-header {
+        flex-direction: column;
+        gap: map-get($spacing-scale, 3);
+        
+        .feedback-status {
+            align-items: flex-start !important;
+        }
+    }
+}
+
+@media (max-width: map-get($breakpoints, sm)) {
+    .group-detail-view {
+        padding: map-get($spacing-scale, 3);
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-card,
+    .chart-section {
+        padding: map-get($spacing-scale, 6);
+    }
+    
+    .detail-header {
+        h2 {
+            font-size: 24px;
+        }
+    }
+    
+    .pie-chart {
+        width: 150px;
+        height: 150px;
+        
+        .chart-segment span {
+            font-size: 11px;
+            padding: 6px 12px;
+        }
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        
+        .search-info {
+            text-align: center;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-container {
+        gap: map-get($spacing-scale, 4);
+    }
+    
+    .chart-legend {
+        .legend-item {
+            min-width: unset;
+        }
+    }
+    
+    .feedback-card {
+        padding: map-get($spacing-scale, 4);
+    }
+    
+    .empty-state {
+        padding: map-get($spacing-scale, 8);
+    }
+}
+
+// ============================================
+// PRINT STYLES
+// ============================================
+
+@media print {
+    .group-detail-view {
+        padding: 0;
+        background: none;
+    }
+    
+    .btn-back,
+    .chart-toggle,
+    .toolbar,
+    .feedback-actions,
+    .search-info {
+        display: none !important;
+    }
+    
+    .info-card,
+    .chart-section,
+    .feedback-card {
+        box-shadow: none !important;
+        border: 1px solid map-get($colors, gray-400) !important;
+        page-break-inside: avoid;
+    }
+    
+    .chart-section {
+        display: none !important;
+    }
+    
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
+    h2, h3, h4 {
+        page-break-after: avoid;
+    }
+}
